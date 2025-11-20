@@ -1,4 +1,6 @@
 from urllib import parse
+from bs4 import BeautifulSoup
+
 
 def normalize_url(input_url):
     if input_url == "":
@@ -10,3 +12,16 @@ def normalize_url(input_url):
         raise ValueError("Not a valid url")
 
     return f"{url.netloc}{url.path.rstrip("/")}"
+
+
+def get_h1_from_html(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    h1 = soup.h1
+    if h1 is None:
+        return ""
+    else:
+        return h1.get_text()
+
+
+def get_first_paragraph_from_html(html):
+    pass
