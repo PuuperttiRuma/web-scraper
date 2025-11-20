@@ -24,4 +24,15 @@ def get_h1_from_html(html):
 
 
 def get_first_paragraph_from_html(html):
-    pass
+    soup = BeautifulSoup(html, 'html.parser')
+
+    main = soup.find("main")
+    if main is not None:
+        p = main.find("p")
+    else:
+        p = soup.find("p")
+
+    if p is None:
+        return ""
+    else:
+        return p.get_text()
