@@ -51,3 +51,18 @@ def get_urls_from_html(html, base_url):
             joined_link = parse.urljoin(base_url, href, False)
             links.append(joined_link)
     return links
+
+
+def get_images_from_html(html, base_url):
+    soup = BeautifulSoup(html, 'html.parser')
+    images = []
+    for link in soup.find_all("img"):
+        src = link.get("src")
+        if src is None:
+            continue
+        if bool(parse.urlparse(src).netloc):  # checks if absolute link
+            images.append(src)
+        else:
+            joined_link = parse.urljoin(base_url, src, False)
+            images.append(joined_link)
+    return images
