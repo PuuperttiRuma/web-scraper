@@ -36,3 +36,18 @@ def get_first_paragraph_from_html(html):
         return ""
     else:
         return p.get_text()
+
+
+def get_urls_from_html(html, base_url):
+    soup = BeautifulSoup(html, 'html.parser')
+    links = []
+    for link in soup.find_all("a"):
+        href = link.get("href")
+        if href is None:
+            continue
+        if bool(parse.urlparse(href).netloc):  # checks if absolute link
+            links.append(href)
+        else:
+            joined_link = parse.urljoin(base_url, href, False)
+            links.append(joined_link)
+    return links
