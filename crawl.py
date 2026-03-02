@@ -89,3 +89,29 @@ def get_html(url):
         )
     r.raise_for_status()
     return r.content
+
+
+def crawl_page(base_url, current_url=None, page_data=None):
+    if current_url is None:
+        current_url = str(base_url)
+    if page_data is None:
+        page_data = {}
+
+    if parse.urlparse(current_url).hostname != parse.urlparse(base_url).hostname:
+        # print("Page outside of domain")
+        return
+
+    normalized_url = normalize_url(current_url)
+    if normalized_url in page_data.keys():
+        return page_data
+
+    print(f"Crawling {normalized_url}")
+    try:
+        html = get_html(current_url)
+        page_data[normalized_url] = extract_page_data(html, current_url)
+        # print(page_data.keys())
+        for link in page_data[normalized_url]["outgoing_links"]:
+            crawl_page(base_url, link, page_data)
+    except Exception as e:
+        print(f"{e}")
+    return page_data
