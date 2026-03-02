@@ -1,4 +1,5 @@
 from urllib import parse
+import requests
 from bs4 import BeautifulSoup
 
 
@@ -11,11 +12,11 @@ def normalize_url(input_url):
     if url.netloc == "":
         raise ValueError("Not a valid url")
 
-    return f"{url.netloc}{url.path.rstrip("/")}"
+    return f"{url.netloc}{url.path.rstrip('/')}"
 
 
 def get_h1_from_html(html):
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, "html.parser")
     h1 = soup.h1
     if h1 is None:
         return ""
@@ -24,7 +25,7 @@ def get_h1_from_html(html):
 
 
 def get_first_paragraph_from_html(html):
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, "html.parser")
 
     main = soup.find("main")
     if main is not None:
@@ -39,7 +40,7 @@ def get_first_paragraph_from_html(html):
 
 
 def get_urls_from_html(html, base_url):
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, "html.parser")
     links = []
     for link in soup.find_all("a"):
         href = link.get("href")
@@ -54,7 +55,7 @@ def get_urls_from_html(html, base_url):
 
 
 def get_images_from_html(html, base_url):
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, "html.parser")
     images = []
     for link in soup.find_all("img"):
         src = link.get("src")
