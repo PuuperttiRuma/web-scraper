@@ -78,3 +78,13 @@ def extract_page_data(html, page_url):
     }
     # page_dict["url"] = normalize_url(html)
     return page_dict
+def get_html(url):
+    r = requests.get(url, headers={"User-Agent": "BootCrawler/1.0"})
+    if r.status_code >= 400:
+        raise requests.HTTPError(f"Request failed: {r.status_code}: {r.reason}")
+    if "text/html" not in r.headers["content-type"]:
+        raise Exception(
+            f"Request failed, wrong content-type: {r.headers['content-type']}"
+        )
+    r.raise_for_status()
+    return r.content

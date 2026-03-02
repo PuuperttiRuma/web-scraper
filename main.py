@@ -1,18 +1,5 @@
 import sys
-import requests
-
-
-def get_html(url):
-    r = requests.get(url, headers={"User-Agent": "BootCrawler/1.0"})
-    if r.status_code >= 400:
-        raise Exception(f"Request failed: {r.status_code}: {r.reason}")
-    if "text/html" not in r.headers["content-type"]:
-        raise Exception(
-            f"Request failed, wrong content-type: {r.headers['content-type']}"
-        )
-    if r.raise_for_status() is not None:
-        raise r.raise_for_status()
-    return r.content
+from crawl import get_html
 
 
 def main():
