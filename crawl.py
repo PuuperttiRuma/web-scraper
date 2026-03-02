@@ -69,15 +69,15 @@ def get_images_from_html(html, base_url):
 
 
 def extract_page_data(html, page_url):
-    page_dict = {
+    return {
         "url": page_url,
         "h1": get_h1_from_html(html),
         "first_paragraph": get_first_paragraph_from_html(html),
         "outgoing_links": get_urls_from_html(html, page_url),
         "image_urls": get_images_from_html(html, page_url),
     }
-    # page_dict["url"] = normalize_url(html)
-    return page_dict
+
+
 def get_html(url):
     r = requests.get(url, headers={"User-Agent": "BootCrawler/1.0"})
     if r.status_code >= 400:
